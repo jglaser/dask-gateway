@@ -5,6 +5,7 @@ import signal
 import sys
 
 from aiohttp import web
+import socket
 from traitlets import Unicode, Bool, List, validate, default
 from traitlets.config import catch_config_error
 
@@ -210,7 +211,8 @@ class DaskGateway(Application):
 
         host, port = self.address.split(":")
         port = int(port)
-        site = web.TCPSite(self.runner, host, port, shutdown_timeout=15.0, backlog=128)
+        site = web.TCPSite(self.runner, host, port, shutdown_timeout=15.0,
+            backlog=socket.SOMAXCONN)
         await site.start()
         self.log.info("Dask-Gateway server started")
         self.log.info("- Private API server listening at http://%s", self.address)
