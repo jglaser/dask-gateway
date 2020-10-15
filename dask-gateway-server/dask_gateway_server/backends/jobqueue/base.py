@@ -82,9 +82,12 @@ class JobQueueBackend(DBBackendBase):
                   if tup[1] is not None]
 
         if len(fields) != 0:
-            staging_dir = staging_dir.format(
-                home=pwd.getpwnam(cluster.username).pw_dir, username=cluster.username
-            )
+            try:
+                staging_dir = staging_dir.format(
+                    home=pwd.getpwnam(cluster.username).pw_dir, username=cluster.username
+                )
+            except:
+                staging_dir = staging_dir.format(home=None, username=cluster.username)
 
         return os.path.join(staging_dir, cluster.name)
 
