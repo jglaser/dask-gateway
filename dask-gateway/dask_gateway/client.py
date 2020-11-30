@@ -608,6 +608,7 @@ class Gateway(object):
             shutdown_on_close=shutdown_on_close,
             address=self.address,
             proxy_address=self.proxy_address,
+            public_address=self._public_address,
             auth=self.auth,
             asynchronous=self.asynchronous,
             loop=self.loop,
